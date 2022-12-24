@@ -1,0 +1,741 @@
+﻿
+@model AZUS_Transport_Website.Models.Users
+
+@{
+    ViewBag.Title = "Регистрация";
+}
+<link href="~/Content/Register.css" rel="stylesheet" />
+
+
+<div class="userNew">
+    <img src="/Content/Images/Cars.png" width=300>
+    <h2>Регистрация нового пользователя</h2>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @if (ViewBag.Message != null)
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    @ViewBag.Message
+                </div>
+            </div>
+        }
+
+        <form method="post">
+            <label class="indent__">Информация о подразделении</label>
+            <div class="frames">
+                <label class="indent___">Подразделение</label> <label class="indent">Здание</label>  <label class="indent_">Комната</label>
+                <div></div>
+
+                @Html.DropDownListFor(model => model.DivisionID, Model.Divisions_ as SelectList, htmlAttributes: new
+                    {
+
+                        @class = "listSize",
+                        @onchange = "callCangenfunc(this.value)",
+
+                    })
+
+
+                <input class="listSize_" value=@ViewBag.building disabled="disabled" />
+                @Html.EditorFor(model => model.Room, new { htmlAttributes = new { @class = "listSize_", @type = "number", @placeholder = "102", @Value = "", @min = "1", @id = "building", @onkeyup = "saveValue(this)", maxlength = "7" } })
+                @Html.ValidationMessageFor(model => model.Room, " ", new { @class = "validation-text" })
+
+            </div>
+
+            <label class="indent1">Руководитель и экономист</label>
+            <div class="frames_EcnDrc">
+                <div class="indent___">Ф.И.О. руководителя</div>
+
+                <input class="director" value="@ViewBag.usrDrcChoice" disabled="disabled" />
+                <div class="indent___">Ф.И.О. экономиста</div>
+                <input class="economist" value="@ViewBag.usrEcnChoice" disabled="disabled" />
+
+            </div>
+            <label class="indent1">Пользователь</label>
+            <div class="frames_">
+                <label class="indent___">Логин</label> <label class="distance-label">Фамилия</label>
+                <div class="">
+                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "distance", @placeholder = "petrov1245", @id = "username", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.Username, " ", new { @class = "validation-text" })
+                    <label class="indent_">
+                        @Html.EditorFor(model => model.SurName, new { htmlAttributes = new { @class = "distance", @placeholder = "Петров", @id = "surName", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                    </label>
+                    @Html.ValidationMessageFor(model => model.SurName, " ", new { @class = "validation-text" })
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "login-control" })
+                <label class="indent___">Пароль</label> <label class="distance-label_Name">Имя</label>
+                <div class="password">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "distance_Password", @id = "distance_Password", @type = "password", @placeholder = "7UnR4po3", @name = "password", @minlength = "8", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.Password, " ", new { @class = "text-danger" })
+
+                    <label class="indent_">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "distance", @placeholder = "Пётр", @id = "name", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.Name, " ", new { @class = "text-danger" })
+                    </label>
+                    <label class="indent___">Повторите пароль</label> <label class="distance-label_Partonymic">Отчество</label>
+
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "distance_Password", @id = "password-input", @type = "password", @placeholder = "7UnR4po3", @name = "password", @minlength = "8", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.Password, " ", new { @class = "text-danger" })
+
+                    <label class="indent_">
+                        @Html.EditorFor(model => model.Partonymic, new { htmlAttributes = new { @class = "distance", @placeholder = "Петрович", @id = "partonymic", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.Partonymic, " ", new { @class = "text-danger" })
+                    </label>
+                    @*<a href="#" class="password-control">Показать пароль</a>*@
+                    <input type="checkbox" class="password-control">@*<img class="password-control" src="/Content/Images/Eye.png" />*@
+                    <div id="validpass" class="errorPassword"></div>
+
+                    @*<a class='button1' href='#' onclick='toggleShowPassword(); return false;'>
+                            Показать/Скрыть пароль
+                        </a>*@
+                    <div>
+                        @Html.ValidationMessageFor(model => model.Partonymic, " ", new { @class = "text-danger" })
+
+                    </div>
+
+                </div>
+                <label class="indent___">Адрес электронной почты</label>  <label class="distance-label_Post">Должность</label>
+                <div class="indent___">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "distance", @placeholder = "petrov1990@niiar.ru", @id = "email", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.Email, " ", new { @class = "text-danger" })
+                    <label class="indent_">
+                        @Html.EditorFor(model => model.Post, new { htmlAttributes = new { @class = "distance", @placeholder = "Главный инженер", @id = "post", @onkeyup = "saveValue(this)", maxlength = "200" } })
+                        @Html.ValidationMessageFor(model => model.Post, " ", new { @class = "text-danger" })
+                    </label>
+                </div>
+
+                <label class="indent___">Мобильный телефон</label> <label class="distance-label_Phone">Рабочий телефон</label>
+                <div class="">
+
+                    @Html.EditorFor(model => model.MobilePhone, new { htmlAttributes = new { id = "phone", @class = "distance_MobilePhone", @type = "text", @placeholder = "+7(309)345-52-44", @minlength = "17", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.MobilePhone, " ", new { @class = "validation-text" })
+                    <label class="indent_">
+                        @Html.EditorFor(model => model.WorkPhone, new { htmlAttributes = new { @class = "distance_WorkPhone", @placeholder = "+7(309-45)3-52-44", @minlength = "18", @id = "workPhone", @onkeyup = "saveValue(this)", maxlength = "50" } })
+                    </label>
+                    @Html.ValidationMessageFor(model => model.WorkPhone, " ", new { @class = "validation-text" })
+                </div>
+            </div>
+            <label class="indent1">Статус</label>
+            <div class="frames_Choice">
+
+                @Html.RadioButton("statusID", "2", new { @checked = true }) <label class="indent___"> Клиент</label>
+
+                @if (ViewBag.usrDrc != null)
+                {
+                    <label class="distance-label_Status"> @Html.RadioButton("statusID", "3", new { @disabled = true }) <label class="indent___"> Руководитель</label></label>
+
+                }
+                else
+                {
+                    <label class="distance-label_Status"> @Html.RadioButton("statusID", "3") <label class="indent___"> Руководитель</label></label>
+                }
+                @if (ViewBag.usrDspNIIAR != null)
+                {
+                    <label class="distance-label_StatusDispatcherNIIAR"> @Html.RadioButton("statusID", "5", new { @disabled = true }) <label class="indent___"> Диспетчер НИИАР</label></label>
+                }
+                else
+                {
+                    <label class="distance-label_StatusDispatcherNIIAR"> @Html.RadioButton("statusID", "5") <label class="indent___"> Диспетчер НИИАР</label></label>
+                }
+                @if (ViewBag.usrAdm != null)
+                {
+                    <label class="control-label12"> @Html.RadioButton("statusID", "1", new { @disabled = true }) <label class="indent___"> Администратор</label></label>
+                }
+                else
+                {
+                    <label class="control-label12"> @Html.RadioButton("statusID", "1") <label class="indent___"> Администратор</label></label>
+                }
+                @if (ViewBag.usrEcn != null)
+                {
+                    <label class="distance-label_StatusEconomist"> @Html.RadioButton("statusID", "4", new { @disabled = true }) <label class="indent___"> Экономист</label></label>
+                }
+                else
+                {
+                    <label class="distance-label_StatusEconomist"> @Html.RadioButton("statusID", "4") <label class="indent___"> Экономист</label></label>
+                }
+                @if (ViewBag.usrDspATA != null)
+                {
+                    <label class="distance-label_StatusDispatcherATA"> @Html.RadioButton("statusID", "7", new { @disabled = true }) <label class="indent___"> Диспетчер АТА</label></label>
+                }
+                else
+                {
+                    <label class="distance-label_StatusDispatcherATA"> @Html.RadioButton("statusID", "7") <label class="indent___"> Диспетчер АТА</label></label>
+                }
+                @if (ViewBag.usrDpr != null)
+                {
+                    <div class="control-label12"> @Html.RadioButton("statusID", "6", new { @disabled = true }) <label class="indent___"> ДИД</label></div>
+
+                }
+                else
+                {
+                    <div class="control-label12"> @Html.RadioButton("statusID", "6") <label class="indent___"> ДИД</label></div>
+                }
+            </div>
+            <label class="label-login">@Html.ActionLink("← Войти", "Login", "Account")</label>
+            <div class="distanceRegister">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Зарегистрироваться" class="register" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+}
+
+
+@*<div>
+        @Html.ActionLink("Пользователи", "Index")
+    </div>*@
+
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+<script>
+        /*Показать/скрыть пароль*/
+    //function toggleShowPassword() {
+    //    var passwordTextBox = document.getElementById('passwordTextBox');
+    //    if (passwordTextBox.getAttribute('type') == 'text') {
+    //        passwordTextBox.type = 'password';
+    //    }
+    //    else {
+    //        passwordTextBox.type = 'text';
+    //    }
+    //}
+
+    //function toggleShowPassword1() {
+    //    var passwordTextBox = document.getElementById('passwordTextBox1');
+    //    if (passwordTextBox.getAttribute('type') == 'text') {
+    //        passwordTextBox.type = 'password';
+    //    }
+    //    else {
+    //        passwordTextBox.type = 'text';
+    //    }
+    //}
+        /*Показать/скрыть пароль*/
+
+
+
+    function callCangenfunc(val) { window.location.href = "/Account/Register?divisionID=" + val };
+    @*function diskDiameterFunc(val) { window.location.href = "/Home/Index?categor=" + @ViewBag.categor+"&diskDiameter=" + val };
+    function mainsVoltageFunc(val) { window.location.href = "/Home/Index?categor=" + @ViewBag.categor+"&mainsVoltage=" + val  };
+    function noiceLevelFunc(val) { window.location.href = "/Home/Index?categor=" + @ViewBag.categor+"&noiceLevel=" + val  };*@
+
+
+    //Маска ввода телефона на чистом JS
+    window.addEventListener("DOMContentLoaded", function () {
+        [].forEach.call(document.querySelectorAll('.distance_MobilePhone'), function (input) {
+            var keyCode;
+            function mask(event) {
+                event.keyCode && (keyCode = event.keyCode);
+                var pos = this.selectionStart;
+                if (pos < 3) event.preventDefault();
+                var matrix = "+ 7(___)___ __ __",
+                    i = 0,
+                    def = matrix.replace(/\D/g, ""),
+                    val = this.value.replace(/\D/g, ""),
+                    new_value = matrix.replace(/[_\d]/g, function (a) {
+                        return i < val.length ? val.charAt(i++) || def.charAt(i) : a
+                    });
+                i = new_value.indexOf("_");
+                if (i != -1) {
+                    i < 5 && (i = 3);
+                    new_value = new_value.slice(0, i)
+                }
+                var reg = matrix.substr(0, this.value.length).replace(/_+/g,
+                    function (a) {
+                        return "\\d{1," + a.length + "}"
+                    }).replace(/[+()]/g, "\\$&");
+                reg = new RegExp("^" + reg + "$");
+                if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) this.value = new_value;
+                if (event.type == "blur" && this.value.length < 5) this.value = ""
+            }
+
+            input.addEventListener("input", mask, false);
+            input.addEventListener("focus", mask, false);
+            input.addEventListener("blur", mask, false);
+            input.addEventListener("keydown", mask, false)
+
+        });
+
+    });
+    //Маска ввода телефона на чистом JS
+    //Маска ввода телефона на чистом JS
+    window.addEventListener("DOMContentLoaded", function () {
+        [].forEach.call(document.querySelectorAll('.distance_WorkPhone'), function (input) {
+            var keyCode;
+            function mask(event) {
+                event.keyCode && (keyCode = event.keyCode);
+                var pos = this.selectionStart;
+                if (pos < 3) event.preventDefault();
+                var matrix = "+ 7(___ __)_ __ __",
+                    i = 0,
+                    def = matrix.replace(/\D/g, ""),
+                    val = this.value.replace(/\D/g, ""),
+                    new_value = matrix.replace(/[_\d]/g, function (a) {
+                        return i < val.length ? val.charAt(i++) || def.charAt(i) : a
+                    });
+                i = new_value.indexOf("_");
+                if (i != -1) {
+                    i < 5 && (i = 3);
+                    new_value = new_value.slice(0, i)
+                }
+                var reg = matrix.substr(0, this.value.length).replace(/_+/g,
+                    function (a) {
+                        return "\\d{1," + a.length + "}"
+                    }).replace(/[+()]/g, "\\$&");
+                reg = new RegExp("^" + reg + "$");
+                if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) this.value = new_value;
+                if (event.type == "blur" && this.value.length < 5) this.value = ""
+            }
+
+            input.addEventListener("input", mask, false);
+            input.addEventListener("focus", mask, false);
+            input.addEventListener("blur", mask, false);
+            input.addEventListener("keydown", mask, false)
+
+        });
+
+    });
+    //Маска ввода телефона на чистом JS
+
+    //Сравнение паролей
+    var passFields = $('.distance_Password'),
+        validResult = $("#validpass");
+    passFields.on('input', comparingPasswords);
+    $('form').on('submit', comparingPasswords);
+
+    function comparingPasswords(e) {
+        var output = '',
+            err = false,
+            p1 = $.trim(passFields.eq(0).val()),
+            p2 = $.trim(passFields.eq(1).val());
+        if (p1 == '' || p2 == '') {
+            output = 'Введите пароль!';
+            err = true;
+        } else {
+            if (p1 != p2) {
+                output = 'Пароли не совпадают!';
+                err = true;
+            }
+        }
+        if (p1 != '' && p2 == '' ) {
+            output = 'Введите пароль повторно!';
+            err = true;
+        }
+        if (p1.length <= 7 && p1 != '') {
+            output = 'Пароль не менее 8 символов!';
+            err = true;
+        }
+        validResult.text(output);
+        if (err) e.preventDefault();
+    }
+    //Сравнение паролей
+    //показать пароль
+    $('body').on('click', '.password-control', function () {
+        if ($(this).is(':checked')) {
+            $('#password-input').attr('type', 'text');
+        } else {
+            $('#password-input').attr('type', 'password');
+        }
+    });
+
+    $('body').on('click', '.password-control', function () {
+        if ($(this).is(':checked')) {
+            $('#distance_Password').attr('type', 'text');
+        } else {
+            $('#distance_Password').attr('type', 'password');
+        }
+    });
+    //показать пароль
+
+
+    //Сохранение данных в поле ввода
+    document.getElementById("building").value = getSavedValue("building");
+    document.getElementById("username").value = getSavedValue("username");
+    document.getElementById("surName").value = getSavedValue("surName");
+    document.getElementById("distance_Password").value = getSavedValue("distance_Password");
+    document.getElementById("name").value = getSavedValue("name");
+    document.getElementById("password-input").value = getSavedValue("password-input");
+    document.getElementById("partonymic").value = getSavedValue("partonymic");
+    document.getElementById("email").value = getSavedValue("email");
+    document.getElementById("post").value = getSavedValue("post");
+    document.getElementById("phone").value = getSavedValue("phone");
+    document.getElementById("workPhone").value = getSavedValue("workPhone");
+
+
+    function saveValue(e) {
+        var id = e.id;
+        var val = e.value;
+        localStorage.setItem(id, val);
+    }
+
+    function getSavedValue(v) {
+        if (localStorage.getItem(v) === null) {
+            return "";
+        }
+        return localStorage.getItem(v);
+    }
+    //Сохранение данных в поле ввода
+</script>
+
+<style>
+    .userNew h2 {
+        margin: 10px 0px 0px 330px;
+    }
+
+    .userNew img {
+        margin: 10px 0px 0px 400px;
+    }
+
+    .button1 {
+        line-height: 100%;
+        display: inline-block;
+        padding: 7px 15px;
+        background: #6eddff;
+        text-decoration: none;
+        color: black;
+        border-radius: 6px;
+        font-size: 100%;
+    }
+
+        .button1:active,
+        .button1:hover {
+            background: #3d9dba;
+            color: white;
+        }
+
+    .frames {
+        font-size: 150%;
+        /* border: 3px solid black;*/
+        /*width: 600px;*/
+        border-radius: 5px;
+        margin: 0px 0px 0px 250px;
+        padding: 0px 0px 0px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 635px;
+        height: 100px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+
+    .frames_ {
+        font-size: 150%;
+        /* border: 3px solid black;*/
+        /*width: 600px;*/
+        border-radius: 5px;
+        margin: 0px 0px 0px 250px;
+        padding: 0px 0px 0px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 635px;
+        height: 400px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+
+    .frames_Choice {
+        font-size: 150%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+        /* border: 3px solid black;*/
+        /*width: 600px;*/
+        border-radius: 5px;
+        margin: 0px 0px 0px 250px;
+        padding: 0px 0px 0px 20px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 635px;
+        height: 120px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+
+    .frames_EcnDrc {
+        font-size: 150%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+        /* border: 3px solid black;*/
+        /*width: 600px;*/
+        border-radius: 5px;
+        margin: 0px 0px 0px 250px;
+        padding: 0px 0px 0px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 635px;
+        height: 140px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+
+    .listSize {
+        height: 34px;
+        width: 400px;
+        font-size: 14px;
+    }
+
+    .listSize_ {
+        height: 34px;
+        width: 100px;
+        font-size: 14px;
+    }
+
+    .distance {
+        height: 34px;
+        width: 280px;
+        font-size: 14px;
+        margin: 0px 0px 0px 0px;
+    }
+
+    .distance_Password {
+        height: 34px;
+        width: 280px;
+        font-size: 14px;
+        margin: 0px 0px 0px 0px;
+    }
+
+
+    .distance-label {
+        padding: 0px 0px 0px 280px;
+        font-size: 80%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+    }
+
+    .distance-label_Name {
+        padding: 0px 0px 0px 265px;
+        font-size: 80%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+    }
+
+    .distance-label_Partonymic {
+        padding: 0px 0px 0px 180px;
+        font-size: 80%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+    }
+
+    .distance-label_Post {
+        padding: 0px 0px 0px 120px;
+        font-size: 80%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+    }
+
+    .distance-label_Phone {
+        padding: 0px 0px 0px 160px;
+        font-size: 80%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+    }
+
+    .distance_MobilePhone {
+        height: 34px;
+        width: 280px;
+        font-size: 14px;
+    }
+
+    .distance_WorkPhone {
+        height: 34px;
+        width: 280px;
+        font-size: 14px;
+    }
+
+    .distance-label_Status {
+        padding: 0px 0px 0px 75px;
+    }
+
+    .distance-label_StatusDispatcherNIIAR {
+        padding: 0px 0px 0px 25px;
+    }
+
+    .distance-label_StatusEconomist {
+        padding: 0px 0px 0px 10px;
+    }
+
+    .distance-label_StatusDispatcherATA {
+        padding: 0px 0px 0px 45px;
+    }
+
+    .indent___ {
+        font-size: 80%;
+        font-weight: 100;
+    }
+
+
+
+    .indent {
+        padding: 0px 0px 0px 275px; /*Отступ*/
+        font-size: 80%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+    }
+
+
+
+    .indent_ {
+        padding: 0px 0px 0px 45px;
+        font-size: 80%;
+        font-weight: 100;
+    }
+
+    .indent__ {
+        padding: 0px 0px 0px 250px;
+        font-size: 150%;
+    }
+
+    .indent1 {
+        padding: 20px 0px 0px 250px;
+        font-size: 150%;
+    }
+
+    .director {
+        height: 34px;
+        width: 610px;
+        font-size: 14px;
+    }
+
+    .economist {
+        height: 34px;
+        width: 610px;
+        font-size: 14px;
+    }
+
+    .distance-label_Ecn {
+        padding: 0px 0px 0px 120px;
+        font-size: 80%; /*размер шрифта*/
+        font-weight: 100; /*начертание шрифта*/
+    }
+
+
+    /*Показать/скрыть пароль*/
+    /*   .password {
+        position: relative;
+    }
+
+    .password-control {
+        position: absolute;
+        top: 65px;
+        right: 200px;
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        background: url(/Content/Images/Eye.png) 0 0 no-repeat;
+    }
+
+        .password-control.view {
+            background: url(/Content/Images/Eye_slash.png) 0 0 no-repeat;
+        }*/
+    /*Показать/скрыть пароль*/
+    /*если поля не заполнены, отображение красным цветом*/
+    .field-validation-error {
+        color: #f00;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    .input-validation-error {
+        border: 1px solid #f00;
+        background-color: #fee;
+    }
+
+    .validation-summary-errors {
+        font-weight: bold;
+        color: #f00;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    .validation-text {
+        font-size: 75%;
+        font-weight: 100;
+    }
+    /*если поля не заполнены, отображение красным цветом*/
+
+    .register {
+        border: none;
+        outline: 0;
+        padding: 10px;
+        color: #fff;
+        background-color: #240fdc;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 18px;
+        text-decoration: none;
+        width: 250px;
+    }
+
+
+    .distanceRegister {
+        padding: 35px 30px 0px 280px;
+    }
+
+    .errorPassword {
+        font-size: 75%;
+        font-weight: 100;
+        color: #f00;
+    }
+
+
+
+    .password-control {
+        position: absolute;
+        left: 900px;
+        /*right: 180px;*/
+        /*padding: 0px 0px 0px 10px;*/
+        font-size: 70%; /* размер шрифта*/
+    }
+
+    .login-control {
+        position: absolute;
+        left: 790px;
+        top: 700px;
+        /*right: 180px;*/
+        /*padding: 0px 0px 0px 10px;*/
+        font-size: 70%; /* размер шрифта*/
+    }
+
+    .label-login {
+        padding: 10px 0px 0px 250px;
+        font-size: 120%;
+    }
+</style>
+
+
+
+

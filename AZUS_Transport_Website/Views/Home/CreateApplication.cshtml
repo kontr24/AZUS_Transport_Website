@@ -1,0 +1,730 @@
+﻿@model AZUS_Transport_Website.Models.FilteringApplications
+
+@{
+    ViewBag.Title = "Создать заявку";
+}
+
+<h2 style="margin: 10px 0px 0px 550px;">Заявка</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <label style="font-size: 150%;">Клиент</label>
+        <div class="frames">
+            @*@Html.LabelFor(model => model.application, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <label class="control-label col-md-2">Ф.И.O.</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.application.UserID, new { htmlAttributes = new { @Value = Model.user.Id, @type = "hidden" } })
+
+                <input class="form-control" type="text" readonly="readonly" value="@Model.user.SurName @Model.user.Name @Model.user.Partonymic">
+                @Html.ValidationMessageFor(model => model.application.UserID, "", new { @class = "text-danger" })
+            </div>
+            <label class="control-label col-md-2">E-mail</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" readonly="readonly" value="@Model.user.Email">
+            </div>
+            <label class="control-label col-md-2">Должность</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" readonly="readonly" value="@Model.user.Post">
+            </div>
+
+            <label class="control-label col-md-2">Подразделение</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" readonly="readonly" value="@Model.user.Divisions.Name">
+            </div>
+
+            <label class="control-label col-md-2">Здание</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" readonly="readonly" value="@Model.user.Divisions.Building">
+            </div>
+            <label class="control-label col-md-2">Комната</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" readonly="readonly" value="@Model.user.Room">
+            </div>
+            <label class="control-label col-md-2">Рабочий телефон</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" readonly="readonly" value="@Model.user.WorkPhone">
+            </div>
+
+            <label class="control-label col-md-2">Мобильный телефон</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" readonly="readonly" value="@Model.user.MobilePhone">
+            </div>
+        </div>
+        <label style="font-size: 150%;">Руководитель и экономист</label>
+        <div class="framesEcnDrc">
+            <label class="control-label col-md-2">Ф.И.О. руководителя</label>
+            @foreach (var usr in Model.Users.Where(x => x.Id == Model.user.Id))
+            {
+                foreach (var usrDrc in Model.Users.Where(x => x.DivisionID == usr.DivisionID && x.StatusID == 3))
+                {
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" readonly="readonly" value="@usrDrc.SurName @usrDrc.Name @usrDrc.Partonymic">
+                    </div>
+                }
+            }
+            <label class="control-label col-md-2">Ф.И.О. экономиста</label>
+            @foreach (var usr in Model.Users.Where(x => x.Id == Model.user.Id))
+            {
+                foreach (var usrEcn in Model.Users.Where(x => x.DivisionID == usr.DivisionID && x.StatusID == 4))
+                {
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" readonly="readonly" value="@usrEcn.SurName @usrEcn.Name @usrEcn.Partonymic">
+                    </div>
+                }
+            }
+        </div>
+        <label style="font-size: 150%;">Дата и время использования</label>
+        <div class="framesDateTime">
+
+
+            @*@Html.EditorFor(model => model.application.StartDate, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        @type = "datetime",
+                        @Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+
+                    }
+                })
+
+                     @Html.EditorFor(model => model.application.EndDate, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        @type = "datetime",
+                        @Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+
+                    }
+                })*@
+
+
+
+            @Html.EditorFor(model => model.application.DateCreation, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control",
+               //@type = "date",
+               @Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+               @type = "hidden"
+           }
+       })
+
+
+            <label class="day-label">День</label>
+
+            @Html.RadioButtonFor(model => model.application.Days, "true", new { @checked = true, @Value = true }@*, new { htmlAttributes = new { @class = "form-control"} }*@)
+            <label>Рабочий</label>
+            @Html.RadioButtonFor(model => model.application.Days, "false", new { @style = "margin: 0px 0px 0px 20px;", @Value = false })
+            <label>Выходной</label>
+            <hr />
+            <div></div>
+            <label class="startWork">Начало работы</label>
+
+            @Html.Editor("dateStart", new
+       {
+           htmlAttributes = new
+           {
+               @class = "DateTime-control",
+               @type = "date",
+               @Value = DateTime.Now.ToString("yyyy-MM-dd"),
+               @min = DateTime.Now.ToString("yyyy-MM-dd")
+           }
+       })
+            @Html.Editor("timeStart", new { htmlAttributes = new { @class = "DateTime-control", type = "time", @Value = DateTime.Now.ToString("HH:mm") } })
+
+            <label class="endWork">Завершение работы</label>
+            @Html.Editor("dateEnd", new
+    {
+        htmlAttributes = new
+        {
+            @class = "DateTime-control",
+            @type = "date",
+            @Value = DateTime.Now.ToString("yyyy-MM-dd"),
+            @min = DateTime.Now.ToString("yyyy-MM-dd")
+        }
+    })
+            @Html.Editor("timeEnd", new { htmlAttributes = new { @class = "DateTime-control", type = "time", @Value = DateTime.Now.ToString("HH:mm") } })
+
+
+        </div>
+
+        <label style="font-size: 150%;">Назначение</label>
+        <div class="framesAppointment">
+
+            <label style="margin: 0px 30px 10px 55px;">Город/Межгород</label>
+            @Html.RadioButtonFor(model => model.application.IntercityСity, "true", new { @checked = true, @Value = true }@*, new { htmlAttributes = new { @class = "form-control"} }*@)
+            <label>Город</label>
+            @Html.RadioButtonFor(model => model.application.IntercityСity, "false", new { @style = "margin: 0px 0px 0px 40px;", @Value = false })
+            <label>Межгород</label>
+            <hr />
+            <div></div>
+            <label style="margin: 0px 0px 0px 65px;">Тип транспорта</label>
+            @Html.DropDownListFor(model => model.application.TypeCarID, Model.TypeCars as SelectList, htmlAttributes: new
+       {
+           @id = "typeCarID",
+           @class = "typeCar-control",
+           @onchange = "showBlock(this.value)"
+           //@onchange = "callCangenfunc(this.value)",
+
+       })
+            <label id="id1" class="y"
+                   style="margin: 0px 0px 0px 20px;">
+                Количество пассажиров
+                @Html.EditorFor(model => model.application.QuantityPassengers, new
+           {
+               htmlAttributes = new
+               {
+                   @id = "quantityPassengers",
+
+                   @class = "quantityPassengers-control",
+                   @type = "number",
+                   @placeholder = "10",
+                   @min = "1",
+                        @max = "30"
+                    }
+                })
+                <label style="font-weight: 100; margin: 0px 0px 0px 10px">(мин = 1; макс = 30)</label>
+            </label>
+
+            @Html.ValidationMessageFor(model => model.application.QuantityPassengers, " ", new { @class = "text-danger" })
+
+            <label id="id2" style="margin: 0px 0px 0px 145px;" class="x">
+                Груз (кг)
+
+                @Html.EditorFor(model => model.application.CargoWeight, new
+                {
+                    htmlAttributes = new
+                    {
+                        @id = "сargoWeight",
+
+                        @class = "сargoWeight-control",
+                        @type = "number",
+                        @placeholder = "1000",
+                        @min = "50",
+                        @max = "3000"
+                    }
+                })
+                <label style="font-weight: 100; margin: 0px 0px 0px 10px">(мин = 50; макс = 3000)</label>
+            </label>
+            @Html.ValidationMessageFor(model => model.application.CargoWeight, " ", new { @class = "text-danger" })
+            <div></div>
+            <label style="margin: 20px 0px 0px 20px;">Цель использования<label style="margin: 0px 0px 0px 40px; display: block;">транспорта</label></label>
+            @Html.EditorFor(model => model.application.PurposeUsingTransport, new { htmlAttributes = new { @class = "purposeUsingTransport-control", @type = "text", @placeholder = "для осуществления регулярных перевозок пассажиров", maxlength = "500" } })
+            @Html.ValidationMessageFor(model => model.application.PurposeUsingTransport, " ", new { @class = "text-danger" })
+            <hr />
+            <div></div>
+            <label style="margin: 0px 0px 0px 80px;">Место подачи</label>
+            @Html.EditorFor(model => model.application.PlaceSubmission, new { htmlAttributes = new { @class = "placeSubmission-control", @type = "text", @placeholder = "управление", maxlength = "300" } })
+            @Html.ValidationMessageFor(model => model.application.PlaceSubmission, " ", new { @class = "text-danger" })
+            <label style="margin: 0px 0px 0px 20px;">Маршрут</label>
+
+            @Html.Editor("routeWherefrom", new { htmlAttributes = new { @class = "route-control", @type = "text", @placeholder = "откуда", maxlength = "147" } }) <label> —> </label>
+            @Html.Editor("routeWhere", new { htmlAttributes = new { @class = "route-control", @type = "text", @placeholder = "куда", maxlength = "147" } })
+
+            @Html.ValidationMessageFor(model => model.application.Route, " ", new { @class = "text-danger" })
+
+        </div>
+
+
+        <label style="font-size: 150%;">Дополнительно</label>
+        <div class="framesAdditionally">
+            <label style="margin: 0px 0px 0px 90px;">Комментарий</label>
+            @Html.EditorFor(model => model.application.CommentClient, new { htmlAttributes = new { @class = "commentClient-control", @type = "text", @placeholder = "Комментарий", maxlength = "500" } })
+
+        </div>
+        <label class="label-mainPage">@Html.ActionLink("← Главная страница", "Index", "Home")</label>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.application.CPC, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.application.CPC, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.application.CPC, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        @Html.EditorFor(model => model.application.CarID, new { htmlAttributes = new { @Value = "1", @hidden = "hidden" } })
+        @Html.EditorFor(model => model.application.DirectorStatusDoneID, new { htmlAttributes = new { @Value = "3", @hidden = "hidden" } })
+        @Html.EditorFor(model => model.application.EconomistStatusDoneID, new { htmlAttributes = new { @Value = "3", @hidden = "hidden" } })
+        @Html.EditorFor(model => model.application.DepartmentStatusDoneID, new { htmlAttributes = new { @Value = "3", @hidden = "hidden" } })
+        @Html.EditorFor(model => model.application.DispatcherNIIAR_StatusDoneID, new { htmlAttributes = new { @Value = "3", @hidden = "hidden" } })
+        @Html.EditorFor(model => model.application.DispatcherATA_StatusDoneID, new { htmlAttributes = new { @Value = "3", @hidden = "hidden" } })
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Отправить" class="send-btn" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="~/Scripts/jquery-ui.min.js"></script>
+
+<script>
+    //скрыть, показать элементы
+    function showBlock(val) {
+
+        document.getElementById('id1').style.display = 'none';
+        document.getElementById('id2').style.display = 'none';
+        document.getElementById('id' + val).style.display = 'inline';
+    }
+    
+    //скрыть, показать элементы
+
+    
+
+
+
+
+    //Проверка на пустоту
+
+    $(document).ready(function () {
+            var x = $('id' + val).css('display');
+            var y = $('.y').css('display');
+            var quantityPassengersFields = $('.quantityPassengers-control'),
+                validResult = $("#validpass");
+            quantityPassengersFields.on('input', comparingQuantityPassengers);
+            $('form').on('submit', comparingQuantityPassengers);
+
+            function comparingQuantityPassengers(e) {
+                var output = '',
+                    err = false,
+                    p1 = $.trim(quantityPassengersFields.eq(0).val());
+                //p2 = $.trim(сargoWeightFields.eq(1).val());
+
+                if (p1 == '' && x != 'none') {
+                    //output = 'Укажите количество пассажиров!';
+                    err = true;
+                    document.getElementById("quantityPassengers").style.border = "1px solid #f00";
+                    document.getElementById("quantityPassengers").style.background = "#fee";
+                }
+                else {
+                    document.getElementById("typeCarID").onclick = function (e) {
+                        document.getElementById("сargoWeight").value = null;
+                    }
+
+                    document.getElementById("quantityPassengers").style.border = "1px solid #ccc";
+                    document.getElementById("quantityPassengers").style.background = "#ffffff";
+                }
+                validResult.text(output);
+                if (err) e.preventDefault();
+            }
+
+        
+        
+            //var сargoWeightFields = $('.сargoWeight-control'),
+            //    validResult = $("#validpass");
+            //сargoWeightFields.on('input', comparingCargoWeight);
+            //$('form').on('submit', comparingCargoWeight);
+
+
+        //    function comparingCargoWeight(e) {
+        //        var output = '',
+        //            err = false,
+        //            p1 = $.trim(сargoWeightFields.eq(0).val());
+        //        //p2 = $.trim(quantityPassengersFields.eq(1).val());
+        //        if (p1 == '' && y != 'none') {
+        //            //output = 'Укажите количество пассажиров!';
+        //            err = true;
+                   
+        //            document.getElementById("сargoWeight").style.border = "1px solid #f00";
+        //            document.getElementById("сargoWeight").style.background = "#fee";
+        //        }
+        //        else {
+        //            document.getElementById("typeCarID").onclick = function (e) {
+        //                document.getElementById("quantityPassengers").value = null;
+        //            }
+
+        //            document.getElementById("сargoWeight").style.border = "1px solid #ccc";
+        //            document.getElementById("сargoWeight").style.background = "#ffffff";
+        //        }
+
+
+        //        validResult.text(output);
+        //        if (err) e.preventDefault();
+
+
+        //}
+    })
+
+    
+    //Проверка на пустоту
+</script>
+
+<style>
+    .x {
+        display: none;
+    }
+
+    .y {
+        display: inline;
+    }
+
+    .send-btn {
+        border: none;
+        outline: 0;
+        padding: 10px;
+        color: #fff;
+        background-color: #240fdc;
+        text-align: center;
+        cursor: pointer;
+        /*width: 10%;*/
+        font-size: 18px;
+        text-decoration: none;
+        margin: 0px 0px 0px 350px;
+        width: 150px;
+    }
+
+    .frames {
+        font-size: 120%;
+        /* border: 3px solid black;*/
+        /*width: 600px;*/
+        border-radius: 5px;
+        margin: 0px 0px 20px 0px;
+        padding: 10px 10px 10px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 1300px;
+        height: 300px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+
+    .framesEcnDrc {
+        font-size: 120%;
+        /* border: 3px solid black;*/
+        /*width: 600px;*/
+        border-radius: 5px;
+        margin: 0px 0px 20px 0px;
+        padding: 10px 10px 10px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 1300px;
+        height: 100px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+    /*если поля не заполнены, отображение красным цветом*/
+
+    .framesDateTime {
+        font-size: 120%;
+        border-radius: 5px;
+        margin: 0px 0px 20px 0px;
+        padding: 10px 10px 10px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 1300px;
+        height: 150px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+
+    .framesAppointment {
+        font-size: 120%;
+        border-radius: 5px;
+        margin: 0px 0px 20px 0px;
+        padding: 10px 10px 10px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 1300px;
+        height: 300px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+
+    .framesAdditionally {
+        font-size: 120%;
+        border-radius: 5px;
+        margin: 0px 0px 20px 0px;
+        padding: 10px 10px 10px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 1300px;
+        height: 80px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+    /*скрыть*/
+    #id2 {
+        display: none;
+    }
+    /*скрыть*/
+
+    .DateTime-control {
+        /*display: block;*/
+        width: 15%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+    .typeCar-control {
+        width: 30%;
+        height: 34px;
+        margin: 0px 0px 0px 35px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+    .сargoWeight-control {
+        /*width: 5%;*/
+        height: 34px;
+        margin: 0px 0px 0px 30px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 100;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+    .quantityPassengers-control {
+        /*width: 15%;*/
+        height: 34px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 100;
+        margin: 0px 0px 0px 20px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+    .placeSubmission-control {
+        width: 10%;
+        height: 34px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 100;
+        margin: 10px 0px 0px 35px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+    .route-control {
+        width: 11%;
+        height: 34px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 100;
+        margin: 10px 0px 0px 5px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+    .purposeUsingTransport-control {
+        width: 65%;
+        height: 34px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 100;
+        margin: 10px 0px 0px 35px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+    .commentClient-control {
+        width: 65%;
+        height: 34px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 100;
+        margin: 10px 0px 0px 25px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+
+    .day-label {
+        margin: 0px 30px 10px 150px;
+    }
+
+    .startWork {
+        margin: 0px 30px 10px 65px;
+    }
+
+    .endWork {
+        margin: 0px 30px 10px 40px;
+    }
+
+    /*если поля не заполнены, отображение красным цветом*/
+    .field-validation-error {
+        color: #f00;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    .input-validation-error {
+        border: 1px solid #f00;
+        background-color: #fee;
+    }
+
+    .validation-summary-errors {
+        font-weight: bold;
+        color: #f00;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    .validation-text {
+        font-size: 75%;
+        font-weight: 100;
+    }
+    /*если поля не заполнены, отображение красным цветом*/
+
+
+
+    .label-mainPage {
+        /*padding: 0px 0px 0px 0px;*/
+        font-size: 120%;
+    }
+</style>
