@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище ASUZ_Transport_DBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Applications">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="CPC" Type="nvarchar" MaxLength="50" />
+    <Property Name="IntercityСity" Type="bit" />
+    <Property Name="PurposeUsingTransport" Type="varchar" MaxLength="500" />
+    <Property Name="Days" Type="bit" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="DateCreation" Type="datetime" Nullable="false" />
+    <Property Name="TypeCarID" Type="int" Nullable="false" />
+    <Property Name="QuantityPassengers" Type="int" />
+    <Property Name="CargoWeight" Type="float" />
+    <Property Name="CarID" Type="int" />
+    <Property Name="PlaceSubmission" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="Route" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="CommentClient" Type="varchar" MaxLength="500" />
+    <Property Name="СommentDirector" Type="varchar" MaxLength="500" />
+    <Property Name="СommentEconomist" Type="varchar" MaxLength="500" />
+    <Property Name="СommentDepartment" Type="varchar" MaxLength="500" />
+    <Property Name="СommentDispatcherNIIAR" Type="varchar" MaxLength="500" />
+    <Property Name="СommentDispatcherATA" Type="varchar" MaxLength="500" />
+    <Property Name="DirectorStatusDoneID" Type="int" Nullable="false" />
+    <Property Name="EconomistStatusDoneID" Type="int" Nullable="false" />
+    <Property Name="DepartmentStatusDoneID" Type="int" Nullable="false" />
+    <Property Name="DispatcherNIIAR_StatusDoneID" Type="int" Nullable="false" />
+    <Property Name="DispatcherATA_StatusDoneID" Type="int" Nullable="false" />
+    <Property Name="SelectionApplicationJoin" Type="bit" />
+    <Property Name="ApplicationJoin" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Cars">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeCarID" Type="int" Nullable="false" />
+    <Property Name="ModelCarID" Type="int" Nullable="false" />
+    <Property Name="RegisterSign" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="StatusCarID" Type="int" Nullable="false" />
+    <Property Name="ImageMimeType" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Divisions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Building" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ModelCars">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StatusCars">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Statuses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StatusesDone">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TypeCars">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="SurName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Partonymic" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Post" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="DivisionID" Type="int" Nullable="false" />
+    <Property Name="Room" Type="int" Nullable="false" />
+    <Property Name="WorkPhone" Type="varchar" MaxLength="50" />
+    <Property Name="MobilePhone" Type="varchar" MaxLength="50" />
+    <Property Name="StatusID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Applications_Cars">
+    <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+    <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cars">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Applications">
+        <PropertyRef Name="CarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Applications_StatusesDone">
+    <End Role="StatusesDone" Type="Self.StatusesDone" Multiplicity="1" />
+    <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusesDone">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Applications">
+        <PropertyRef Name="DirectorStatusDoneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Applications_StatusesDone1">
+    <End Role="StatusesDone" Type="Self.StatusesDone" Multiplicity="1" />
+    <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusesDone">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Applications">
+        <PropertyRef Name="EconomistStatusDoneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Applications_StatusesDone2">
+    <End Role="StatusesDone" Type="Self.StatusesDone" Multiplicity="1" />
+    <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusesDone">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Applications">
+        <PropertyRef Name="DispatcherNIIAR_StatusDoneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Applications_StatusesDone3">
+    <End Role="StatusesDone" Type="Self.StatusesDone" Multiplicity="1" />
+    <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusesDone">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Applications">
+        <PropertyRef Name="DepartmentStatusDoneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Applications_StatusesDone4">
+    <End Role="StatusesDone" Type="Self.StatusesDone" Multiplicity="1" />
+    <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusesDone">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Applications">
+        <PropertyRef Name="DispatcherATA_StatusDoneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Applications_TypeCars">
+    <End Role="TypeCars" Type="Self.TypeCars" Multiplicity="1" />
+    <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeCars">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Applications">
+        <PropertyRef Name="TypeCarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Applications_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Applications">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cars_ModelCars">
+    <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="1" />
+    <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ModelCars">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="ModelCarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cars_StatusCars">
+    <End Role="StatusCars" Type="Self.StatusCars" Multiplicity="1" />
+    <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusCars">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="StatusCarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cars_TypeCars">
+    <End Role="TypeCars" Type="Self.TypeCars" Multiplicity="1" />
+    <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeCars">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="TypeCarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Divisions">
+    <End Role="Divisions" Type="Self.Divisions" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Divisions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="DivisionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Statuses">
+    <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Statuses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище ASUZ_Transport_DBModelContainer">
+    <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Divisions" EntityType="Self.Divisions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ModelCars" EntityType="Self.ModelCars" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StatusCars" EntityType="Self.StatusCars" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StatusesDone" EntityType="Self.StatusesDone" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeCars" EntityType="Self.TypeCars" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Applications_Cars" Association="Self.FK_Applications_Cars">
+      <End Role="Cars" EntitySet="Cars" />
+      <End Role="Applications" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Applications_StatusesDone" Association="Self.FK_Applications_StatusesDone">
+      <End Role="StatusesDone" EntitySet="StatusesDone" />
+      <End Role="Applications" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Applications_StatusesDone1" Association="Self.FK_Applications_StatusesDone1">
+      <End Role="StatusesDone" EntitySet="StatusesDone" />
+      <End Role="Applications" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Applications_StatusesDone2" Association="Self.FK_Applications_StatusesDone2">
+      <End Role="StatusesDone" EntitySet="StatusesDone" />
+      <End Role="Applications" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Applications_StatusesDone3" Association="Self.FK_Applications_StatusesDone3">
+      <End Role="StatusesDone" EntitySet="StatusesDone" />
+      <End Role="Applications" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Applications_StatusesDone4" Association="Self.FK_Applications_StatusesDone4">
+      <End Role="StatusesDone" EntitySet="StatusesDone" />
+      <End Role="Applications" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Applications_TypeCars" Association="Self.FK_Applications_TypeCars">
+      <End Role="TypeCars" EntitySet="TypeCars" />
+      <End Role="Applications" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Applications_Users" Association="Self.FK_Applications_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Applications" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cars_ModelCars" Association="Self.FK_Cars_ModelCars">
+      <End Role="ModelCars" EntitySet="ModelCars" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cars_StatusCars" Association="Self.FK_Cars_StatusCars">
+      <End Role="StatusCars" EntitySet="StatusCars" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cars_TypeCars" Association="Self.FK_Cars_TypeCars">
+      <End Role="TypeCars" EntitySet="TypeCars" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Divisions" Association="Self.FK_Users_Divisions">
+      <End Role="Divisions" EntitySet="Divisions" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Statuses" Association="Self.FK_Users_Statuses">
+      <End Role="Statuses" EntitySet="Statuses" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
