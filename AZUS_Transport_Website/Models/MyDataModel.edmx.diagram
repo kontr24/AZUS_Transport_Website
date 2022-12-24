@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="616c4c0fa72c48febc4640547250d157" Name="Diagram1">
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.Applications" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.Cars" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.Divisions" Width="1.5" PointX="1.5" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.ModelCars" Width="1.5" PointX="1.5" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.StatusCars" Width="1.5" PointX="1.5" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.Statuses" Width="1.5" PointX="1.5" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.StatusesDone" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.TypeCars" Width="1.5" PointX="1.5" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASUZ_Transport_DBModel.Users" Width="1.5" PointX="0.75" PointY="22.125" IsExpanded="true" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Applications_Cars" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Applications_StatusesDone" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Applications_StatusesDone1" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Applications_StatusesDone2" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Applications_StatusesDone3" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Applications_StatusesDone4" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Applications_TypeCars" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Applications_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Cars_ModelCars" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Cars_StatusCars" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Cars_TypeCars" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Users_Divisions" ManuallyRouted="false" />
+        <AssociationConnector Association="ASUZ_Transport_DBModel.FK_Users_Statuses" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

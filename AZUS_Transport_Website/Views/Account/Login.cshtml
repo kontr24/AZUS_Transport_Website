@@ -1,0 +1,203 @@
+﻿@model AZUS_Transport_Website.Models.Users
+
+@{
+    ViewBag.Title = "Вход";
+}
+
+<div class="userNew">
+    <img src="/Content/Images/Cars.png" width=300>
+    <h2>Вход</h2>
+</div>
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @ViewBag.error
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "validation-danger" })
+
+        @if (TempData["message"] != null)
+        {
+            <div class="message">
+                @TempData["message"]
+            </div>
+        }
+        <div class="frames">
+            <div class="indent___">Логин</div>
+            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "distance", @placeholder = "petrov1245", maxlength = "50" } })
+            @Html.ValidationMessageFor(model => model.Username, " ", new { @class = "validation-text" })
+            <div class="indent___">Пароль</div>
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "distance_Password", @id = "password-input", @type = "password", @placeholder = "7UnR4po3", @name = "password", maxlength = "50" } })
+            <input type="checkbox" class="password-control">
+            <div> @Html.ValidationMessageFor(model => model.Password, " ", new { @class = "validation-text" })</div>
+        </div>
+        <label class="remember">@Html.CheckBoxFor(model => model.remember) Запомнить</label>
+
+
+
+        <label class="label-register">@Html.ActionLink("Регистрация", "Register", "Account")</label>
+        <div class="label-recover">@Html.ActionLink("Восстановить доступ", "Recover", "Account")</div>
+        <div class="distanceLogin">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Войти" class="login" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+<script>
+    //показать пароль
+    $('body').on('click', '.password-control', function () {
+        if ($(this).is(':checked')) {
+            $('#password-input').attr('type', 'text');
+        } else {
+            $('#password-input').attr('type', 'password');
+        }
+    });
+    //показать пароль
+</script>
+
+
+<link href="~/Content/checkbox-new.css" rel="stylesheet" />
+<style>
+    .userNew h2 {
+        margin: 10px 0px 0px 500px;
+    }
+
+    .userNew img {
+        margin: 10px 0px 0px 400px;
+    }
+
+    .frames {
+        font-size: 150%;
+        border-radius: 5px;
+        margin: 0px 0px 0px 390px;
+        padding: 0px 0px 0px 10px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        /*text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);*/ /*тень от букв*/
+        color: #333333;
+        background: #FFFFFF;
+        width: 305px;
+        height: 130px; /* Размеры */
+        /*background: #f8f8a6;*/ /*Цвет фона */
+        outline: 2px solid #000; /* Чёрная рамка */
+        border: 3px solid #fff; /* Белая рамка*/
+        border-radius: 10px; /*Радиус скругления */
+    }
+
+    .indent___ {
+        font-size: 80%;
+        font-weight: 100;
+    }
+
+    .distance {
+        height: 34px;
+        width: 280px;
+        font-size: 14px;
+    }
+
+    .distance_Password {
+        height: 34px;
+        width: 280px;
+        font-size: 14px;
+        margin: 0px 0px 0px 0px;
+    }
+
+    .distanceLogin {
+        padding: 35px 30px 0px 320px;
+    }
+
+    .login {
+        border: none;
+        outline: 0;
+        padding: 10px;
+        color: #fff;
+        background-color: #240fdc;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 18px;
+        text-decoration: none;
+        width: 150px;
+    }
+
+    /*если поля не заполнены, отображение красным цветом*/
+    .field-validation-error {
+        color: #f00;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    .input-validation-error {
+        border: 1px solid #f00;
+        background-color: #fee;
+    }
+
+    .validation-summary-errors {
+        font-weight: bold;
+        color: #f00;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    .validation-text {
+        font-size: 75%;
+        font-weight: 100;
+    }
+    /*если поля не заполнены, отображение красным цветом*/
+
+
+    .validation-danger {
+        font-size: 120%;
+        font-weight: 100;
+        margin: 0px 0px 0px 365px;
+    }
+
+    .password-control {
+        position: absolute;
+        left: 1050px;
+        right: 300px;
+        /*right: 180px;*/
+        /*padding: 0px 0px 0px 10px;*/
+        font-size: 70%; /* размер шрифта*/
+    }
+
+    .label-register {
+        padding: 0px 0px 0px 110px;
+    }
+
+    .remember {
+        font-size: 120%;
+        font-weight: 100;
+        margin: 15px 0px 0px 390px;
+    }
+
+    .label-recover {
+        padding: 0px 0px 0px 560px;
+    }
+
+    .message {
+        font-size: 120%;
+        font-weight: 100;
+        color: #f00;
+        margin: 10px 0px 10px 200px;
+    }
+</style>

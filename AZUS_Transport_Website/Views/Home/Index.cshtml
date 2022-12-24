@@ -1,0 +1,57 @@
+﻿@using AZUS_Transport_Website.Models
+@model AZUS_Transport_Website.Models.FilteringApplications
+@{
+    ViewBag.Title = "Index";
+    //Layout = null;
+}
+@*<meta charset="utf-8">*@
+
+<html>
+<head>
+    @*Диалоговые окна и CRUD-интерфейс*@
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
+    @*Диалоговые окна и CRUD-интерфейс*@
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+</head>
+<body>
+
+
+    @using (Ajax.BeginForm("_IndexPartial", "Home", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+
+        if (ViewBag.archiveFalse == true)
+        {
+            <input type="text" name="archiveFalse" value="true" hidden="hidden" />
+            <input type="text" name="archiveTrue" value="false" hidden="hidden" />
+        }
+
+        if (ViewBag.archiveFalse == false)
+        {
+            <input type="text" name="archiveFalse" value="false" hidden="hidden" />
+            <input type="text" name="archiveTrue" value="true" hidden="hidden" />
+        }
+        <input type="submit" class="updateIndex" value="Отобразить" hidden="hidden" />
+
+    }
+
+    <script>
+        //обновление частичного представления
+        window.setInterval(function () { // Интервал проверок
+            document.querySelector('.updateIndex').click() // <-- вот здесь
+        }, 1000);
+                                //обновление частичного представления
+    </script>
+
+    @if (Model.Applications.Count() == 0)
+    {
+        @Html.Partial("_IndexPartial")
+    }
+    else
+    {
+        <label id="results"></label>
+    }
+</body>
+</html>
