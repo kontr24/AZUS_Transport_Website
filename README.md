@@ -15,3 +15,8 @@ https://cloud.mail.ru/public/45v1/bV223wJL7
 <p align="center">
   <a href="https://github.com/kontr24/AZUS_Transport"><img src="https://github.com/kontr24/AZUS_Transport_Website/blob/aa9df4b83652bbc09888ea0d3a724d4bd6001599/ScreenshotsApplication/HomePage.png"></img></a>
 </p>
+<hr/>
+<h2 align="center">Страница создания заявки</h2>
+<p align="center">
+  <a href="https://github.com/kontr24/AZUS_Transport"><img src="https://github.com/kontr24/AZUS_Transport_Website/blob/3e7dbe408d651e4b57a5f49314a4188285a6977c/ScreenshotsApplication/Application%D0%A1reationPage.png"></img></a>
+</p>
